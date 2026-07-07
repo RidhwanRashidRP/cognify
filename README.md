@@ -43,14 +43,20 @@ Notes:
 ## Beginner Setup: Botpress Cloud
 
 1. Create a bot in Botpress Cloud.
-2. Get your `botId` and `clientId`.
+2. Choose one connection method:
+  - Method A (legacy credentials): get `botId` and `clientId`
+  - Method B (hosted snippet): copy `inject.js` URL and the Botpress bundle URL from your embed snippet
 3. Copy `.env.example` to `.env`.
-4. Fill:
-   - `REACT_APP_BOTPRESS_BOT_ID`
-   - `REACT_APP_BOTPRESS_CLIENT_ID`
+4. Fill one of these sets:
+  - Method A:
+    - `REACT_APP_BOTPRESS_BOT_ID`
+    - `REACT_APP_BOTPRESS_CLIENT_ID`
+  - Method B:
+    - `REACT_APP_BOTPRESS_INJECT_URL`
+    - `REACT_APP_BOTPRESS_BUNDLE_URL`
 5. Restart `npm start`.
 
-When configured, the Botpress webchat script is initialized automatically.
+When configured, the Botpress webchat script is initialized automatically and can be opened from the AI Chat card.
 
 ## Core Files
 

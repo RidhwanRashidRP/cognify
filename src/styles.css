@@ -156,6 +156,35 @@ select {
   font-size: 0.88rem;
 }
 
+.status-pill {
+  justify-self: start;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+}
+
+.status-pill--gemini {
+  background: #e9f9ff;
+  color: #0e5c78;
+}
+
+.status-pill--local {
+  background: #fff1e8;
+  color: #7f3f1a;
+}
+
+.status-pill--online {
+  background: #e7f8ee;
+  color: #1d6a3d;
+}
+
+.status-pill--offline {
+  background: #f3f0ea;
+  color: #665f52;
+}
+
 .task-list {
   list-style: none;
   margin: 0;
