@@ -38,8 +38,6 @@ export default function AIChatCard({ tasks }) {
   ]);
   const [draft, setDraft] = useState("");
   const [isSending, setIsSending] = useState(false);
-  const [assistantMode, setAssistantMode] = useState("local");
-  const [statusLabel, setStatusLabel] = useState("Local coach active");
   const [botpressReady, setBotpressReady] = useState(false);
 
   const botpressLegacyConfigured = useMemo(() => {
@@ -57,17 +55,6 @@ export default function AIChatCard({ tasks }) {
   }, []);
 
   const showInlineCoach = !botpressConfigured;
-
-  useEffect(() => {
-    if (geminiConfigured) {
-      setAssistantMode("gemini");
-      setStatusLabel("Gemini configured");
-      return;
-    }
-
-    setAssistantMode("local");
-    setStatusLabel("Local coach active");
-  }, [geminiConfigured]);
 
   useEffect(() => {
     if (!botpressConfigured) return;
@@ -201,10 +188,6 @@ export default function AIChatCard({ tasks }) {
       } else if (error?.status === 404) {
         reason = "Gemini model is unavailable for your account.";
       }
-
-      setAssistantMode("local");
-      setStatusLabel(`${reason} Switched to local coach.`);
-
       const fallbackMessage = {
         id: crypto.randomUUID(),
         role: "assistant",
@@ -216,13 +199,8 @@ export default function AIChatCard({ tasks }) {
     }
   };
 
-  const openBotpressGuide = () => {
-    window.open("https://botpress.com/docs/cloud/get-started", "_blank", "noopener,noreferrer");
-  };
-
   const openBotpressChat = () => {
     if (!window.botpress?.open) {
-      setStatusLabel("Botpress script is not ready yet. Refresh and try again.");
       setBotpressReady(false);
       return;
     }
@@ -234,13 +212,10 @@ export default function AIChatCard({ tasks }) {
   return (
     <article className="card card--wide">
       <h2>AI Chat Coach</h2>
-      <p className={`status-pill status-pill--${assistantMode}`}>{statusLabel}</p>
-      <p className="subtle-text">
-        Beginner mode is active. Local coach works now, with optional Gemini and Botpress integration.
-      </p>
-      <p className={`status-pill ${botpressReady ? "status-pill--online" : "status-pill--offline"}`}>
-        Botpress {botpressReady ? "connected" : botpressConfigured ? "loading" : "not configured"}
-      </p>
+      <div className="chat-card-top">
+        <p className="subtle-text">Study support, one focused step at a time.</p>
+        {botpressConfigured ? <span className={`status-dot ${botpressReady ? "status-dot--online" : "status-dot--offline"}`} /> : null}
+      </div>
 
       {showInlineCoach ? (
         <>
@@ -267,41 +242,18 @@ export default function AIChatCard({ tasks }) {
         </>
       ) : (
         <section className="botpress-panel" aria-live="polite">
-          <h3>Botpress is your primary chat</h3>
-          <p className="subtle-text">
-            Open the connected Cognify Coach bot to chat. The inline local coach is hidden while Botpress is configured.
-          </p>
           <div className="botpress-actions">
             <button className="btn btn--primary" onClick={openBotpressChat} disabled={!botpressConfigured}>
-              Open Botpress Chat
-            </button>
-            <button className="btn btn--ghost" onClick={openBotpressGuide}>
-              Open Botpress Setup Guide
+              Open Cognify Bot
             </button>
           </div>
         </section>
       )}
 
-      <div className="note-box">
-        <p>
-          {geminiConfigured
-            ? "Gemini API key detected. Responses are coming from Google AI Studio unless there is an API error."
-            : "To connect Gemini, add REACT_APP_GEMINI_API_KEY in a .env file. For production, route requests through a backend server."}
-        </p>
-        <p>
-          {botpressConfigured
-            ? "Botpress config detected. You can open chat directly from the button below."
-            : "To connect Botpress Cloud, either add botId/clientId or add inject URL + bundle URL in .env."}
-        </p>
-      </div>
-
       {showInlineCoach ? (
         <div className="note-box">
           <button className="btn btn--primary" onClick={openBotpressChat} disabled={!botpressConfigured}>
-            Open Botpress Chat
-          </button>
-          <button className="btn btn--ghost" onClick={openBotpressGuide}>
-            Open Botpress Setup Guide
+            Open Cognify Bot
           </button>
         </div>
       ) : null}

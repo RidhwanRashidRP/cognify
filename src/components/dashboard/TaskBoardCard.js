@@ -1,6 +1,6 @@
 import { getTaskStatus } from "../../utils/taskUtils";
 
-export default function TaskBoardCard({ tasks, todayKey, onToggleCompleted, onDeleteTask }) {
+export default function TaskBoardCard({ tasks, todayKey, onToggleCompleted, onDeleteTask, onEditTask }) {
   return (
     <article className="card card--wide">
       <h2>Task Board</h2>
@@ -19,11 +19,14 @@ export default function TaskBoardCard({ tasks, todayKey, onToggleCompleted, onDe
                   </p>
                 </div>
                 <div className="task-actions">
-                  <button className="btn btn--ghost" onClick={() => onToggleCompleted(task.id)}>
-                    {task.completed ? "Mark Pending" : "Mark Done"}
-                  </button>
                   <button className="btn btn--danger" onClick={() => onDeleteTask(task.id)}>
                     Delete
+                  </button>
+                  <button className="btn btn--warning" onClick={() => onEditTask(task)}>
+                    Edit
+                  </button>
+                  <button className="btn btn--success" onClick={() => onToggleCompleted(task.id)}>
+                    {task.completed ? "Mark Pending" : "Mark Done"}
                   </button>
                 </div>
               </li>

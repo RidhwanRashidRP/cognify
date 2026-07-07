@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CATEGORY_OPTIONS, PRIORITY_OPTIONS } from "../../utils/taskUtils";
 
 const initialDraft = {
@@ -8,9 +8,26 @@ const initialDraft = {
   deadline: "",
 };
 
-export default function PlannerCard({ onAddTask, todayKey }) {
+export default function PlannerCard({ onAddTask, onSaveTask, editingTask, onCancelEdit, todayKey }) {
   const [draft, setDraft] = useState(initialDraft);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!editingTask) {
+      setDraft(initialDraft);
+      setError("");
+      return;
+    }
+
+    setDraft({
+      id: editingTask.id,
+      title: editingTask.title,
+      category: editingTask.category,
+      priority: editingTask.priority,
+      deadline: editingTask.deadline,
+    });
+    setError("");
+  }, [editingTask]);
 
   const updateDraft = (field, value) => {
     setDraft((prev) => ({ ...prev, [field]: value }));
@@ -34,14 +51,18 @@ export default function PlannerCard({ onAddTask, todayKey }) {
       return;
     }
 
-    onAddTask(draft);
+    if (editingTask) {
+      onSaveTask(draft);
+    } else {
+      onAddTask(draft);
+    }
     setDraft(initialDraft);
     setError("");
   };
 
   return (
     <article className="card">
-      <h2>Task Planner</h2>
+      <h2>{editingTask ? "Edit Task" : "Task Planner"}</h2>
       <form className="stack" onSubmit={handleSubmit}>
         <label>
           Task name
@@ -95,9 +116,16 @@ export default function PlannerCard({ onAddTask, todayKey }) {
 
         {error ? <p className="error-text">{error}</p> : null}
 
-        <button className="btn btn--primary" type="submit">
-          Add Task
-        </button>
+        <div className="planner-actions">
+          <button className="btn btn--primary" type="submit">
+            {editingTask ? "Save Changes" : "Add Task"}
+          </button>
+          {editingTask ? (
+            <button className="btn btn--ghost" type="button" onClick={onCancelEdit}>
+              Cancel
+            </button>
+          ) : null}
+        </div>
       </form>
     </article>
   );
