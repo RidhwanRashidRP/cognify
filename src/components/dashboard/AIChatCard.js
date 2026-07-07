@@ -167,7 +167,7 @@ export default function AIChatCard({ tasks }) {
 
     setIsSending(true);
     try {
-      const shouldUseGemini = geminiConfigured && assistantMode === "gemini";
+      const shouldUseGemini = geminiConfigured && showInlineCoach;
       const replyText = shouldUseGemini
         ? await getGeminiReply(value)
         : buildCoachReply(value, tasks);
@@ -210,8 +210,20 @@ export default function AIChatCard({ tasks }) {
   };
 
   return (
-    <article className="card card--wide">
+    <article className="card card--full card--chat">
       <h2>AI Chat Coach</h2>
+      <section className="bot-identity" aria-label="Cognify Bot intro">
+        <div className="bot-avatar" aria-hidden="true">
+          <span className="bot-avatar__ring" />
+          <span className="bot-avatar__core" />
+        </div>
+        <div>
+          <p className="bot-name">Cognify Bot</p>
+          <p className="subtle-text">
+            Get help with study planning, deadline prioritization, revision structure, and staying focused when work starts piling up.
+          </p>
+        </div>
+      </section>
       <div className="chat-card-top">
         <p className="subtle-text">Study support, one focused step at a time.</p>
         {botpressConfigured ? <span className={`status-dot ${botpressReady ? "status-dot--online" : "status-dot--offline"}`} /> : null}
