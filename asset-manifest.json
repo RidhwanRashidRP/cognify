@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/C240-App/static/css/main.cc0bd340.css",
+    "main.js": "/C240-App/static/js/main.2b15e985.js",
+    "index.html": "/C240-App/index.html",
+    "main.cc0bd340.css.map": "/C240-App/static/css/main.cc0bd340.css.map",
+    "main.2b15e985.js.map": "/C240-App/static/js/main.2b15e985.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cc0bd340.css",
+    "static/js/main.2b15e985.js"
+  ]
+}
